@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eux
+if ! command -v debootstrap &> /dev/null
+then
+    sudo apt-get install debootstrap
+fi
+
+DIST=buster
+DIST=focal
+NAME=ubuntu:2004
+
+sudo debootstrap ${DIST} ${DIST} > /dev/null
+sudo tar -C ${DIST} -cf /tmp/${DIST}.tar . 
+sudo podman import /tmp/${DIST}.tar ${NAME}
+podman import /tmp/${DIST}.tar ${NAME}
